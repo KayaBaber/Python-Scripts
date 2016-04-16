@@ -3,7 +3,7 @@ from datetime import datetime
 #Compare the speeds of a dictonary (hashmap) and a 2D list (nested array)
 #Don't care about the order, only doing global statistics
 
-sqrValues = 10000
+sqrValues = 1000*4
 
 #Assign values to a 2D array
 nestArray=[]
