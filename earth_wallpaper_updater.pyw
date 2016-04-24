@@ -32,6 +32,14 @@ url = ("http://rammb.cira.colostate.edu/ramsdis/online/images/himawari-8/full_di
 print(url)
 urllib.urlretrieve(url, image_path)
 im = Image.open(image_path)
+w, h = im.size
+drive = "C:\\"
+folder = "images"
+image = "cover.jpg"
+cover_path = os.path.join(drive, folder, image)
+cover = Image.open(cover_path)
+im.paste(cover,(0,h-68))
+im.save(image_path,"JPEG")
 SPI_SETDESKWALLPAPER = 20 
 print("Setting Wallpaper...")
 ctypes.windll.user32.SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0, image_path, 3)
