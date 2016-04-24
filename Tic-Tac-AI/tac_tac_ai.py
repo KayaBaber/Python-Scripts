@@ -41,26 +41,32 @@ def rand_ai(gameBoard):
     row = rd.randrange(0, len(gameBoard))  
     col = rd.randrange(0, len(gameBoard))  
     if gameBoard[row][col] != " ":
-        row, col = rand_ai(gameBoard)
+        row,col=0,0        
+        for rows in gameBoard:
+            for cols in rows:
+                if cols ==" ":
+                    row, col = rand_ai(gameBoard)
+                    break
+            break
     return row, col
 
 
-def is_win?(gameBoard):
-    winString="X"*len(gameBoard
-    winStrinf2=" O"*len(gameBoard)
+def is_win(gameBoard):
+    winString="X"*len(gameBoard)
+    winString2="O"*len(gameBoard)
     for row in gameBoard:
         if row.join == winString1:
             return "X"
         if row.join == winString2:
             return "0"
-        NJ
+    
     
 def tic_tac_game(N):
     gameBoard=[]
     for i in range(N):
         gameBoard.append([" "]*N)
     display_board(gameBoard)
-    for i in range(N**2):
+    for i in range((N**2)):
         print "\nPlayer: "+"X"
         row, col = human_player(gameBoard)
         gameBoard[row][col] = "X"
