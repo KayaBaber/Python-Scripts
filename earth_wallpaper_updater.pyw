@@ -3,6 +3,7 @@ import os
 import urllib
 from PIL import Image
 import datetime as dt
+from calendar import monthrange
 
 drive = "C:\\"
 folder = "images"
@@ -15,35 +16,22 @@ extra1=""
 extra2=""
 extra3=""
 extra4=""
-t = dt.datetime.utcnow()
+t = dt.datetime.utcnow()-dt.timedelta(0, 4200)
 
-hour=t.hour
-day=t.day
-month=t.month
-year=t.year
-if (t.minute-30):
-    hour-=1
-if (hour)<0:
-    day-=1
-if day<0:
-    month-=1
-if month<0:
-    year-=1
-    
-if month < 10:
+if t.month < 10:
     extra1="0"
-if day < 10:
+if t.day < 10:
     extra2="0"   
-if hour < 10:
+if t.hour < 10:
     extra3="0"
-if (((t.minute-30)%60)/10) == 0:
+if ((t.minute)/10) == 0:
     extra4="0"
 url = ("http://rammb.cira.colostate.edu/ramsdis/online/images/himawari-8/full_disk_ahi_true_color/full_disk_ahi_true_color_" +
        str(t.year)+
-       extra1+str(month)+
-       extra2+str(day)+
-       extra3+str(hour)+
-       extra4+str((((t.minute-30)%60)/10)*10)
+       extra1+str(t.month)+
+       extra2+str(t.day)+
+       extra3+str(t.hour)+
+       extra4+str(((t.minute)/10)*10)
        + "00.jpg")
 print(url)
 urllib.urlretrieve(url, image_path)
@@ -58,34 +46,22 @@ extra1=""
 extra2=""
 extra3=""
 extra4=""
-hour=t.hour
-day=t.day
-month=t.month
-year=t.year
-if (t.minute-30):
-    hour-=1
-if (hour-12)<0:
-    day-=1
-if day<0:
-    month-=1
-if month<0:
-    year-=1
     
-    
-if month < 10:
+t = t - dt.timedelta(0, 3600*12)    
+if t.month < 10:
     extra1="0"
-if day < 10:
+if t.day < 10:
     extra2="0"   
-if (t.hour-12)%24 < 10:
+if t.hour < 10:
     extra3="0"
-if (t.minute/10) == 0:
+if ((t.minute)/10) == 0:
     extra4="0"
 url = ("http://rammb.cira.colostate.edu/ramsdis/online/images/himawari-8/full_disk_ahi_true_color/full_disk_ahi_true_color_" +
-       str(year)+
-       extra1+str(month)+
-       extra2+str(day)+
-       extra3+str((t.hour-12)%24)+
-       extra4+str((t.minute/10)*10)
+        str(t.year)+
+       extra1+str(t.month)+
+       extra2+str(t.day)+
+       extra3+str(t.hour)+
+       extra4+str(((t.minute)/10)*10)
        + "00.jpg")
 print(url)
 urllib.urlretrieve(url, image_path)
