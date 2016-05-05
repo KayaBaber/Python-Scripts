@@ -1,5 +1,7 @@
 import random as rd
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 def display_board(gameBoard):
     numerals="    "
@@ -69,8 +71,7 @@ def check_win(gameBoard,winLen):
         if ("".join(acrossMirror.tolist())).find(winStringX)==0:
             return "X"
         if ("".join(acrossMirror.tolist())).find(winStringO)==0:
-            return "O"
-            
+            return "O"        
     return False
         
 
@@ -102,8 +103,7 @@ def rand_ai(gameBoard):
     
     
     
-def tic_tac_game(N):
-    
+def tic_tac_game(N,M):
     gameBoard=[]
     for i in range(N):                     #initialize game board
         gameBoard.append([" "]*N)
@@ -116,7 +116,7 @@ def tic_tac_game(N):
         gameBoard[row][col] = "X"
         display_board(gameBoard)
         
-        result = check_win(gameBoard,N-1)   #check for player win
+        result = check_win(gameBoard, M)   #check for player win
         if result != False:
             if result == "X":
                 print "X wins!"
@@ -133,7 +133,7 @@ def tic_tac_game(N):
         gameBoard[row][col] = "O"
         display_board(gameBoard)
         
-        result = check_win(gameBoard,N-1)   #check for AI win
+        result = check_win(gameBoard, M)   #check for AI win
         if result != False:
             if result == "X":
                 print "X wins!"
@@ -146,20 +146,37 @@ def tic_tac_game(N):
             return "Draw"
     return 0
 
-winLog=[]
-XCount=0
-OCount=0
-drawCount=0
-for i in range(100):
-    win=tic_tac_game(6)
-    if win == "X":
-        XCount+=1
-    if win== "O":
-        OCount+=1
-    if win=="Draw":
-        drawCount+=1
-    winLog.append(win)
-print winLog
-print "X ", XCount
-print "O ", OCount
-print "Draw ", drawCount
+
+def game_stats(N,M):
+    XLog=[]
+    OLog=[]
+    drawLog=[]
+    for j in range(10):
+        winLog=[]
+        XCount=0
+        OCount=0
+        drawCount=0
+        for i in range(100):
+            win=tic_tac_game(N,M)
+            if win == "X":
+                XCount+=1
+            if win== "O":
+                OCount+=1
+            if win=="Draw":
+                drawCount+=1
+            winLog.append(win)
+            print j*100+i
+        XLog.append(XCount)
+        OLog.append(OCount)
+        drawLog.append(drawCount)
+    plt.hist(XLog,bins=5)
+    plt.hist(OLog,bins=5)
+    plt.hist(drawLog,bins=5)
+    plt.show()
+    #print winLog
+    #print "X ", XCount
+    #print "O ", OCount
+    #print "Draw ", drawCount
+    
+    
+game_stats(3,3)
