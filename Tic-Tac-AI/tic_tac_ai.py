@@ -1,8 +1,12 @@
 import random as rd
 import numpy as np
-import matplotlib.pyplot as plt
+import copy
+#import matplotlib.pyplot as plt
 
 
+
+
+'''Graphics'''
 def display_board(gameBoard):
     numerals="    "
     for c in range(len(gameBoard)):
@@ -18,8 +22,85 @@ def display_board(gameBoard):
         r+=1
     print "  "+"-"*4*len(gameBoard)+"-"+" \n"
     return 0
-    
-    
+
+
+
+
+'''AI Implementations'''
+def gen_boards(gameBoard, player):
+    openings = find_openings(gameBoard)
+    boards = []
+    for coords in openings:
+        b = copy.deepcopy(gameBoard)
+        b[coords[0]][coords[1]] = player
+        boards.append(b)
+    return boards
+
+
+def find_openings(gameBoard):
+    openings=[]
+    for rows in range(len(gameBoard)):
+        for cols in range(len(gameBoard)):
+            if gameBoard[rows][cols] ==" ":    
+                openings.append([rows,cols])
+    return openings
+
+
+def minimax(gameBoard, player, oppo, turn):
+    if check_win(gameBoard) == player:
+        print "WIN! ------------"
+        display_board(gameBoard)
+        return 1.0
+    if check_win(gameBoard) == oppo:
+        print "LOSS! -----------"
+        display_board(gameBoard)
+        return -1.0
+    if check_full(gameBoard) == True:
+        print "DRAW! -----------"
+        display_board(gameBoard)
+        return 0.0
+    boards=gen_boards(gameBoard, turn)
+    scores = []
+    mScore = 0
+    print scores
+    if turn == player:
+        for b in boards:
+            scores.append(minimax(b, player, oppo, oppo))
+        mScore = max(scores)
+        #mScore -= 0.1*abs(mScore)
+    if turn == oppo:
+        for b in boards:
+            scores.append(minimax(b, player, oppo, player))
+        mScore = min(scores)
+        #mScore += 0.1*abs(mScore)
+    print scores
+    return mScore
+     
+
+def minimax_ai(gameBoard, player, oppo):
+    openings = find_openings(gameBoard)
+    boards = gen_boards(gameBoard, player)
+    scores = []
+    for b in boards:
+        scores.append(minimax(b, player, oppo, player))
+    mIndex = scores.index(max(scores))
+    coords = openings[mIndex]
+    return coords[0], coords[1]
+
+
+
+def rand_ai(gameBoard):
+    openings = find_openings(gameBoard)
+    choice = rd.randrange(0, len(openings))
+    coord = openings[choice]
+    row=coord[0]
+    col=coord[1]
+    return row, col
+
+
+
+
+'''Player Input'''
 def human_player(gameBoard):
     row = raw_input("Row: ")
     col = raw_input("Column: ")
@@ -41,9 +122,12 @@ def human_player(gameBoard):
         print "That location is taken, pick another"
         row, col = human_player(gameBoard)
     return row, col
-    
 
-def check_win(gameBoard,winLen):
+
+
+    
+'''Game Backend'''
+def check_win(gameBoard,winLen=3):
     #checks if someone won
     gameBoard=np.array(gameBoard)
     winStringX="X"*winLen
@@ -84,25 +168,12 @@ def check_full(gameBoard):
     return True
 
 
-def find_openings(gameBoard):
-    openings=[]
-    for rows in range(len(gameBoard)):
-        for cols in range(len(gameBoard)):
-            if gameBoard[rows][cols] ==" ":    
-                openings.append([rows,cols])
-    return openings
+
+
+
+
     
-    
-def rand_ai(gameBoard):
-    openings=find_openings(gameBoard)
-    choice = rd.randrange(0, len(openings))
-    coord = openings[choice]
-    row=coord[0]
-    col=coord[1]
-    return row, col
-    
-    
-    
+'''Main Game Code'''    
 def tic_tac_game(N,M):
     gameBoard=[]
     for i in range(N):                     #initialize game board
@@ -111,8 +182,8 @@ def tic_tac_game(N,M):
     
     for i in range((N**2)):
         print "\nPlayer: "+"X"
-        #row, col = human_player(gameBoard) #take player move
-        row, col= rand_ai(gameBoard)
+        row, col = human_player(gameBoard) #take player move
+        #row, col= rand_ai(gameBoard)
         gameBoard[row][col] = "X"
         display_board(gameBoard)
         
@@ -129,7 +200,8 @@ def tic_tac_game(N,M):
             return "Draw"
         
         print "\nPlayer: "+"O"
-        row, col= rand_ai(gameBoard)       #take AI move
+        #row, col= rand_ai(gameBoard)       #take AI move
+        row, col = minimax_ai(gameBoard, "O", "X")
         gameBoard[row][col] = "O"
         display_board(gameBoard)
         
@@ -145,6 +217,8 @@ def tic_tac_game(N,M):
             print "Cat's game!"
             return "Draw"
     return 0
+
+
 
 
 def game_stats(N,M):
@@ -179,4 +253,7 @@ def game_stats(N,M):
     #print "Draw ", drawCount
     
     
-game_stats(3,3)
+#game_stats(3,3)
+
+
+tic_tac_game(3,3)
