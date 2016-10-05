@@ -1,5 +1,6 @@
 import sys
 import math
+
 #produces error radii list from empirical formula found in Wong et al paper
 #the offset and counts are both returned as strings with extra whitespace at the start
 #so they are clipped and turned into floats for the computation
@@ -12,9 +13,10 @@ def error_function(OFFSETlist, COUNTlist):
 			        (1 + (1 / math.log(float(COUNTlist[i][2:])+1, 10))) +
 			        (0.03 * (float(OFFSETlist[i][2:]) / math.log(float(COUNTlist[i][2:]) + 2, 10)) ** 2) +
 			        (0.0006 * (float(OFFSETlist[i][2:]) / math.log(float(COUNTlist[i][2:]) + 3, 10)) ** 4)
-		        	)
+		       )
 	        errRADIIlist.append(radii)
-	    return errRADIIlist
+	        
+    return errRADIIlist
 
 def save_region(inputTSV, NAMElist, RAlist, DEClist, errRADIIlist, extra=""):
     #starts the list of lines that go into the region file
