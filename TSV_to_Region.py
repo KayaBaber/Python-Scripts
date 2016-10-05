@@ -7,14 +7,14 @@ import math
 def error_function(OFFSETlist, COUNTlist):
     errRADIIlist = []
     for i in range(len(COUNTlist)):
-	        radii = 0 
-	        radii = (0.25 + 
-			        (0.1 / math.log(float(COUNTlist[i][2:])+1, 10)) *
-			        (1 + (1 / math.log(float(COUNTlist[i][2:])+1, 10))) +
-			        (0.03 * (float(OFFSETlist[i][2:]) / math.log(float(COUNTlist[i][2:]) + 2, 10)) ** 2) +
-			        (0.0006 * (float(OFFSETlist[i][2:]) / math.log(float(COUNTlist[i][2:]) + 3, 10)) ** 4)
-		       )
-	        errRADIIlist.append(radii)
+	       radii = 0 
+	       radii = (0.25 + 
+			     (0.1 / math.log(float(COUNTlist[i][2:])+1, 10)) *
+			     (1 + (1 / math.log(float(COUNTlist[i][2:])+1, 10))) +
+			     (0.03 * (float(OFFSETlist[i][2:]) / math.log(float(COUNTlist[i][2:]) + 2, 10)) ** 2) +
+			     (0.0006 * (float(OFFSETlist[i][2:]) / math.log(float(COUNTlist[i][2:]) + 3, 10)) ** 4)
+		      )
+	       errRADIIlist.append(radii)
 	        
     return errRADIIlist
 
@@ -36,7 +36,7 @@ def save_region(inputTSV, NAMElist, RAlist, DEClist, errRADIIlist, extra=""):
 #	 	    str(4) + "\"" +
 	     		")" + "  text={" + NAMElist[i] + "}"
 		       )
-	      regionFileList.append(line)
+        regionFileList.append(line)
 
     #saves the region file list of lines to region file
     with open(inputTSV[:-3] + extra + "reg",'w') as file:
