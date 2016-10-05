@@ -30,12 +30,12 @@ def save_region(inputTSV, NAMElist, RAlist, DEClist, errRADIIlist, extra=""):
     #the radius of each region circle is given from the source list in arcsecs (NOT WORKING RIGHT YET)
     for i in range(len(NAMElist)):
 	       line = ("circle(" +
-			     RAlist[i][1:3] + ":" + RAlist[i][4:6] + ":" + RAlist[i][7:] + "," +
-			     DEClist[i][:3] + ":" + DEClist[i][4:6] + ":" + DEClist[i][7:] + "," +
-			     str(errRADIIlist[i]) + "\"" +
-#	 	    str(4) + "\"" +
-	     		")" + "  text={" + NAMElist[i] + "}"
-		       )
+        RAlist[i][1:3] + ":" + RAlist[i][4:6] + ":" + RAlist[i][7:] + "," +
+        DEClist[i][:3] + ":" + DEClist[i][4:6] + ":" + DEClist[i][7:] + "," +
+        str(errRADIIlist[i]) + "\"" +
+#       str(4) + "\"" +
+        ")" + "  text={" + NAMElist[i] + "}"
+        )
         regionFileList.append(line)
 
     #saves the region file list of lines to region file
