@@ -31,8 +31,8 @@ mandelImage = Image.new("RGB", (xPixels, yPixels), "black")
 mandelData = mandelImage.load()
 scaleFactor = yPixels / 4.0
 iterations = 50
-for x in range(yPixels):
-        for y in range(xPixels):
+for x in range(xPixels):
+        for y in range(yPixels):
             xSc = x/scaleFactor - 2
             ySc = y/scaleFactor - 2
             mandelData[x, y] = mandel_color(xSc, ySc, iterations)
